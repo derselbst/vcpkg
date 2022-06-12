@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/kguiaddons
-    REF v5.89.0
-    SHA512 062a8da3a5d3f9da3288031f8e694fd6adb5b4f404071f2d66c7f4d5b15cbf10fedff58d9db928e45a052b69abbe38d7de57349638d8bb9a229798a553e3b9ed
+    REF v5.95.0
+    SHA512 de014e148248fcb5620138576c5290cba66f4ec5c13a41bbc8e9b97218bae763bd3909083f9fd7b1b03acb532789c28ad91be29907ecaa28bc07395b33200dc1
     HEAD_REF master
     PATCHES
         fix_cmake.patch # https://github.com/microsoft/vcpkg/issues/17607#issuecomment-831518812

@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/kcoreaddons
-    REF v5.89.0
-    SHA512 60b3ffdc69ff39e9d7edf23458d5ed5d063a55cae90d63ced18dc5db16eab027aa39d14a3a8507e7330dfc768e5ab8f77c1770874ad76807ec31a9ee4e0491a4
+    REF v5.95.0
+    SHA512 0cce2f85677ffd6c8bea25ae59120248c48034ae4aa8577a4ca516bb77b000a54382b2245bcccd19838813d2e6265832a2fafee8475fcbc78bd761d56835719b
     PATCHES
         fix_cmake_config.patch # https://invent.kde.org/frameworks/kcoreaddons/-/merge_requests/129
 )

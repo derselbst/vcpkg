@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/karchive
-    REF v5.89.0
-    SHA512 e77d5233b6549332f180be3dcf0459688d6565c24e1af409814aab92d415ebb2b8a04ad720dfa9ed6f017f3ab86fab766b909e30a860bb83c5ddd51def7c3e5f
+    REF v5.95.0
+    SHA512 b58df5610f1b1e8a8a7adbc25c79ab570c85868aa2ecd8549b6d16f5c32b67b34e460301725fbe21fa3b4dfa2bcf364c01db164f7503bf083fdaeda73f3f78e2
     HEAD_REF master
     PATCHES
         control-dependencies.patch

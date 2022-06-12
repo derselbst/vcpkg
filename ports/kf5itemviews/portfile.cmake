@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/kitemviews
-    REF v5.89.0
-    SHA512 c96cb1204d5e9d0b1206eac93f36b06c94b7fcf63c7a75938e50783af1e7d3fe48617fadd264f55f2ac31c3d316a062b9200053a582ccf2e7c927659b7e1b442
+    REF v5.95.0
+    SHA512 7580ec5442580b4901b81dd552dd61d9831b1e1459d276569600eab85a42c5efaaef21b56f17a9f91a0063dfea7765f839441040318ddc395eac9ec960e93d5e
 )
 
 # Prevent KDEClangFormat from writing to source effectively blocking parallel configure

@@ -1,12 +1,28 @@
+From d833a44eaf4d4749809cca8a429ddc83811bc3ef Mon Sep 17 00:00:00 2001
+From: derselbst <tom.mbrt@googlemail.com>
+Date: Tue, 14 Jun 2022 20:13:02 +0200
+Subject: [PATCH] fix cmake
+
+---
+ KF5GuiAddonsConfig.cmake.in | 5 +++++
+ 1 file changed, 5 insertions(+)
+
 diff --git a/KF5GuiAddonsConfig.cmake.in b/KF5GuiAddonsConfig.cmake.in
-index ae17f6b..34e41bd 100644
+index ce25af7..4ec947b 100644
 --- a/KF5GuiAddonsConfig.cmake.in
 +++ b/KF5GuiAddonsConfig.cmake.in
-@@ -10,6 +10,7 @@ if (NOT @BUILD_SHARED_LIBS@)
-         find_dependency(Qt5X11Extras @REQUIRED_QT_VERSION@)
+@@ -12,6 +12,11 @@ if (NOT @BUILD_SHARED_LIBS@)
+         endif()
      endif()
      if (@WITH_WAYLAND@)
-+        set(QtWaylandScanner_EXECUTABLE "${PACKAGE_PREFIX}/tools/qt5-wayland/bin/qtwaylandscanner" CACHE STRING "QtWaylandScanner workaround")
++        if(QT_MAJOR_VERSION VERSION_EQUAL 6)
++            set(QtWaylandScanner_EXECUTABLE "${PACKAGE_PREFIX}/tools/qtwayland/libexec/qtwaylandscanner" CACHE STRING "QtWaylandScanner workaround")
++        else()
++            set(QtWaylandScanner_EXECUTABLE "${PACKAGE_PREFIX}/tools/qt5-wayland/bin/qtwaylandscanner" CACHE STRING "QtWaylandScanner workaround")
++        endif()
          find_dependency(Wayland REQUIRED Client)
-         find_dependency(Qt5WaylandClient @REQUIRED_QT_VERSION@)
+         find_dependency(Qt@QT_MAJOR_VERSION@WaylandClient @REQUIRED_QT_VERSION@)
          find_dependency(QtWaylandScanner)
+-- 
+2.35.3
+

@@ -1,7 +1,7 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/kwallet
-    REF v5.89.0
+    REF v5.95.0
     SHA512 83bf40e5bfa9129ecfdaecebaf16c289542867337daf29be664aeb562e7c6bc32af4c59b71fcfae3cbbf70438872426b5981844c3c275b311340e5b48deac021
     HEAD_REF master
 )
