@@ -18,8 +18,8 @@
     "kf5i18n",
     "kf5sonnet",
     "kf5widgetsaddons",
-    "qt5-base",
-    "qt5-tools",
+    "qtbase",
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true

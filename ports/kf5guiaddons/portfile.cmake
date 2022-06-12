@@ -24,6 +24,8 @@ vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS
         -DBUILD_TESTING=OFF
+        -DBUILD_WITH_QT6=ON
+        -DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.94.0
         -DQtWaylandScanner_EXECUTABLE=${CURRENT_INSTALLED_DIR}/tools/qt5-wayland/bin/qtwaylandscanner
         ${FEATURE_OPTIONS}
     MAYBE_UNUSED_VARIABLES

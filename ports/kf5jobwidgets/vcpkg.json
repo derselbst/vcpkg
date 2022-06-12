@@ -7,11 +7,7 @@
     "ecm",
     "kf5coreaddons",
     "kf5widgetsaddons",
-    "qt5-base",
-    {
-      "name": "qt5-x11extras",
-      "platform": "linux"
-    },
+    "qtbase",
     {
       "name": "vcpkg-cmake",
       "host": true

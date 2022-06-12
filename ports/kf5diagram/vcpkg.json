@@ -5,8 +5,8 @@
   "homepage": "https://api.kde.org/kdiagram/index.html",
   "dependencies": [
     "ecm",
-    "qt5-base",
-    "qt5-svg",
+    "qtbase",
+    "qtsvg",
     {
       "name": "vcpkg-cmake",
       "host": true

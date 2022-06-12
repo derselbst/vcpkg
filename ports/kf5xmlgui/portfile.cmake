@@ -19,6 +19,8 @@ vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS
         -DBUILD_TESTING=OFF
+        -DBUILD_WITH_QT6=ON
+        -DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.94.0
         -DKDE_INSTALL_PLUGINDIR=plugins
         -DKDE_INSTALL_QTPLUGINDIR=plugins
         ${FEATURE_OPTIONS}

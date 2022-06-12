@@ -20,9 +20,9 @@
     "kf5i18n",
     "kf5itemviews",
     "kf5widgetsaddons",
-    "qt5-base",
-    "qt5-svg",
-    "qt5-tools",
+    "qtbase",
+    "qtsvg",
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true

@@ -6,8 +6,8 @@
   "dependencies": [
     "ecm",
     "kf5coreaddons",
-    "qt5-base",
-    "qt5-tools",
+    "qtbase",
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true

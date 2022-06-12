@@ -19,20 +19,8 @@
       "name": "libsnoretoast",
       "platform": "windows"
     },
-    {
-      "name": "qt5-androidextras",
-      "platform": "android"
-    },
-    "qt5-base",
-    {
-      "name": "qt5-macextras",
-      "platform": "osx"
-    },
-    "qt5-tools",
-    {
-      "name": "qt5-x11extras",
-      "platform": "linux"
-    },
+    "qtbase",
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true

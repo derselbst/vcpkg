@@ -15,8 +15,8 @@
     "kf5archive",
     "kf5coreaddons",
     "kf5i18n",
-    "qt5-base",
-    "qt5-tools",
+    "qtbase",
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true

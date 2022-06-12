@@ -18,8 +18,8 @@
     "kf5coreaddons",
     "kf5widgetsaddons",
     "kf5xmlgui",
-    "qt5-base",
-    "qt5-tools",
+    "qtbase",
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true

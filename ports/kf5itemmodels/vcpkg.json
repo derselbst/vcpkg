@@ -5,8 +5,8 @@
   "homepage": "https://api.kde.org/frameworks/kitemmodels/html/index.html",
   "dependencies": [
     "ecm",
-    "qt5-base",
-    "qt5-tools",
+    "qtbase",
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true

@@ -8,10 +8,6 @@
     "kf5coreaddons",
     "kf5windowsystem",
     {
-      "name": "qt5-x11extras",
-      "platform": "linux"
-    },
-    {
       "name": "vcpkg-cmake",
       "host": true
     },

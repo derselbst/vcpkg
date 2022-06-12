@@ -31,8 +31,8 @@
       "name": "libiconv",
       "platform": "windows & static"
     },
-    "qt5-base",
-    "qt5-tools",
+    "qtbase",
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true

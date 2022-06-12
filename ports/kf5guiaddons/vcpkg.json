@@ -5,15 +5,7 @@
   "homepage": "https://api.kde.org/frameworks/kguiaddons/html/index.html",
   "dependencies": [
     "ecm",
-    "qt5-tools",
-    {
-      "name": "qt5-winextras",
-      "platform": "windows"
-    },
-    {
-      "name": "qt5-x11extras",
-      "platform": "linux"
-    },
+    "qttools",
     {
       "name": "vcpkg-cmake",
       "host": true
@@ -42,7 +34,7 @@
     "wayland": {
       "description": "Linux-only. Build with support for KeySequenceEditor inhibiting shortcuts on Wayland",
       "dependencies": [
-        "qt5-wayland"
+        "qtwayland"
       ]
     }
   }
