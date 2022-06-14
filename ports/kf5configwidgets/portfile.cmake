@@ -15,6 +15,11 @@ vcpkg_check_features(
 # Prevent KDEClangFormat from writing to source effectively blocking parallel configure
 file(WRITE "${SOURCE_PATH}/.clang-format" "DisableFormat: true\nSortIncludes: false\n")
 
+if(VCPKG_TARGET_IS_WINDOWS)
+    set(ENV{CFLAGS} "$ENV{CFLAGS} -DKCONFIGWIDGETS_NO_KAUTH")
+    set(ENV{CXXFLAGS} "$ENV{CXXFLAGS} -DKCONFIGWIDGETS_NO_KAUTH")
+endif()
+
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS
