@@ -80,7 +80,7 @@ endif()
 ### Download third_party modules
 vcpkg_from_git(
     OUT_SOURCE_PATH SOURCE_PATH_QLITEHTML
-    URL git://code.qt.io/playground/qlitehtml.git # git://code.qt.io/playground/qlitehtml.git
+    URL https://code.qt.io/playground/qlitehtml.git # git://code.qt.io/playground/qlitehtml.git
     REF "${${PORT}_qlitehtml_REF}"
     FETCH_REF master
     HEAD_REF master
