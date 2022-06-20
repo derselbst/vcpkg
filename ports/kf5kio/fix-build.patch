@@ -1,0 +1,156 @@
+From f84f5f73278df5fa5fb7d4ebc6145fd7072197be Mon Sep 17 00:00:00 2001
+From: "Moebert, Tom" <tom.moebert@zeiss.com>
+Date: Tue, 21 Jun 2022 00:13:59 +0200
+Subject: [PATCH] Fix build
+
+---
+ CMakeLists.txt                                |  2 +-
+ src/core/kcoredirlister.h                     |  1 +
+ .../kstatusbarofflineindicator.cpp            |  2 +-
+ src/filewidgets/kstatusbarofflineindicator.h  |  2 +-
+ src/ioslaves/file/file_win.cpp                | 28 +++++++++----------
+ src/ioslaves/trash/kio_trash_win.cpp          |  3 +-
+ src/widgets/krun.cpp                          |  1 -
+ 7 files changed, 19 insertions(+), 20 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fb97c4875..a4537ad7c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -106,7 +106,7 @@ endif()
+ 
+ set(_qt6_core_compat_found FALSE)
+ if (QT_MAJOR_VERSION STREQUAL "6")
+-    find_package(Qt6Core5Compat ${REQUIRED_QT_VERSION} REQUIRED) # QTextCodec
++    find_package(Qt6Core5Compat ${REQUIRED_QT_VERSION} REQUIRED) # QTextCodec QRegExp
+     set(_qt6_core_compat_found ${Qt6Core5Compat_FOUND})
+ endif()
+ 
+diff --git a/src/core/kcoredirlister.h b/src/core/kcoredirlister.h
+index 930b2b2e0..49dd85f62 100644
+--- a/src/core/kcoredirlister.h
++++ b/src/core/kcoredirlister.h
+@@ -15,6 +15,7 @@
+ #include <QString>
+ #include <QStringList>
+ #include <QUrl>
++#include <QRegExp>
+ 
+ #include <memory>
+ 
+diff --git a/src/filewidgets/kstatusbarofflineindicator.cpp b/src/filewidgets/kstatusbarofflineindicator.cpp
+index bf6bb724c..564aa9438 100644
+--- a/src/filewidgets/kstatusbarofflineindicator.cpp
++++ b/src/filewidgets/kstatusbarofflineindicator.cpp
+@@ -7,7 +7,7 @@
+ 
+ #include "kstatusbarofflineindicator.h"
+ 
+-#if KIOFILEWIDGETS_BUILD_DEPRECATED_SINCE(5, 70)
++#if 0
+ 
+ #include <KIconLoader>
+ #include <KLocalizedString>
+diff --git a/src/filewidgets/kstatusbarofflineindicator.h b/src/filewidgets/kstatusbarofflineindicator.h
+index 6098bab45..e2d638472 100644
+--- a/src/filewidgets/kstatusbarofflineindicator.h
++++ b/src/filewidgets/kstatusbarofflineindicator.h
+@@ -15,7 +15,7 @@
+ 
+ class KStatusBarOfflineIndicatorPrivate;
+ 
+-#if KIOFILEWIDGETS_ENABLE_DEPRECATED_SINCE(5, 70)
++#if 0
+ /**
+  * @class KStatusBarOfflineIndicator kstatusbarofflineindicator.h <KStatusBarOfflineIndicator>
+  *
+diff --git a/src/ioslaves/file/file_win.cpp b/src/ioslaves/file/file_win.cpp
+index 76bb958d2..003a2c272 100644
+--- a/src/ioslaves/file/file_win.cpp
++++ b/src/ioslaves/file/file_win.cpp
+@@ -43,18 +43,18 @@ static UDSEntry createUDSEntryWin(const QFileInfo &fileInfo)
+ {
+     UDSEntry entry;
+ 
+-    entry.insert(KIO::UDSEntry::UDS_NAME, fileInfo.fileName());
++    entry.fastInsert(KIO::UDSEntry::UDS_NAME, fileInfo.fileName());
+     if (fileInfo.isSymLink()) {
+-        entry.insert(KIO::UDSEntry::UDS_TARGET_URL, fileInfo.symLinkTarget());
++        entry.fastInsert(KIO::UDSEntry::UDS_TARGET_URL, fileInfo.symLinkTarget());
+         /* TODO - or not useful on windows?
+                 if ( details > 1 ) {
+                     // It is a link pointing to nowhere
+                     type = S_IFMT - 1;
+                     access = S_IRWXU | S_IRWXG | S_IRWXO;
+ 
+-                    entry.insert( KIO::UDSEntry::UDS_FILE_TYPE, type );
+-                    entry.insert( KIO::UDSEntry::UDS_ACCESS, access );
+-                    entry.insert( KIO::UDSEntry::UDS_SIZE, 0LL );
++                    entry.fastInsert( KIO::UDSEntry::UDS_FILE_TYPE, type );
++                    entry.fastInsert( KIO::UDSEntry::UDS_ACCESS, access );
++                    entry.fastInsert( KIO::UDSEntry::UDS_SIZE, 0LL );
+                     goto notype;
+ 
+                 }
+@@ -77,18 +77,18 @@ static UDSEntry createUDSEntryWin(const QFileInfo &fileInfo)
+         access |= S_IXUSR;
+     }
+ 
+-    entry.insert(KIO::UDSEntry::UDS_FILE_TYPE, type);
+-    entry.insert(KIO::UDSEntry::UDS_ACCESS, access);
+-    entry.insert(KIO::UDSEntry::UDS_SIZE, fileInfo.size());
++    entry.fastInsert(KIO::UDSEntry::UDS_FILE_TYPE, type);
++    entry.fastInsert(KIO::UDSEntry::UDS_ACCESS, access);
++    entry.fastInsert(KIO::UDSEntry::UDS_SIZE, fileInfo.size());
+     if (fileInfo.isHidden()) {
+-        entry.insert(KIO::UDSEntry::UDS_HIDDEN, true);
++        entry.fastInsert(KIO::UDSEntry::UDS_HIDDEN, true);
+     }
+ 
+-    entry.insert(KIO::UDSEntry::UDS_MODIFICATION_TIME, fileInfo.lastModified().toSecsSinceEpoch());
+-    entry.insert(KIO::UDSEntry::UDS_USER, fileInfo.owner());
+-    entry.insert(KIO::UDSEntry::UDS_GROUP, fileInfo.group());
+-    entry.insert(KIO::UDSEntry::UDS_ACCESS_TIME, fileInfo.lastRead().toSecsSinceEpoch());
+-    entry.insert(KIO::UDSEntry::UDS_CREATION_TIME, fileInfo.birthTime().toSecsSinceEpoch());
++    entry.fastInsert(KIO::UDSEntry::UDS_MODIFICATION_TIME, fileInfo.lastModified().toSecsSinceEpoch());
++    entry.fastInsert(KIO::UDSEntry::UDS_USER, fileInfo.owner());
++    entry.fastInsert(KIO::UDSEntry::UDS_GROUP, fileInfo.group());
++    entry.fastInsert(KIO::UDSEntry::UDS_ACCESS_TIME, fileInfo.lastRead().toSecsSinceEpoch());
++    entry.fastInsert(KIO::UDSEntry::UDS_CREATION_TIME, fileInfo.birthTime().toSecsSinceEpoch());
+ 
+     return entry;
+ }
+diff --git a/src/ioslaves/trash/kio_trash_win.cpp b/src/ioslaves/trash/kio_trash_win.cpp
+index bbaf34d0c..89ea25381 100644
+--- a/src/ioslaves/trash/kio_trash_win.cpp
++++ b/src/ioslaves/trash/kio_trash_win.cpp
+@@ -343,13 +343,12 @@ void TrashProtocol::listRoot()
+         if ((findData.dwFileAttributes & FILE_ATTRIBUTE_READONLY) == FILE_ATTRIBUTE_READONLY) {
+             type = 0300;
+         }
+-        listEntry(entry, false);
++        listEntry(entry);
+ 
+         ILFree(i);
+     }
+     l->Release();
+     entry.clear();
+-    listEntry(entry, true);
+     finished();
+ }
+ 
+diff --git a/src/widgets/krun.cpp b/src/widgets/krun.cpp
+index ea2410b07..a1646320b 100644
+--- a/src/widgets/krun.cpp
++++ b/src/widgets/krun.cpp
+@@ -21,7 +21,6 @@
+ #include <QApplication>
+ #include <QDebug>
+ #include <QDesktopServices>
+-#include <QDesktopWidget>
+ #include <QDialog>
+ #include <QDialogButtonBox>
+ #include <QHostInfo>
+-- 
+2.25.1.windows.1
+

@@ -1,6 +1,7 @@
 if(VCPKG_TARGET_IS_WINDOWS AND VCPKG_LIBRARY_LINKAGE STREQUAL static)
     list(APPEND PATCHES fix_libiconv.patch)
 endif()
+list(APPEND PATCHES fix-build.patch)
 
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
@@ -26,7 +27,7 @@ vcpkg_cmake_configure(
     OPTIONS
         -DBUILD_TESTING=OFF
         -DBUILD_WITH_QT6=ON
-        -DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.94.0
+        -DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.47.0
         -DCMAKE_DISABLE_FIND_PACKAGE_KF5DocTools=ON
         -DCMAKE_VERBOSE_MAKEFILE=ON
         -DKDE_INSTALL_QTPLUGINDIR=plugins
