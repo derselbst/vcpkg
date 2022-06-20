@@ -1,0 +1,107 @@
+From 92cbcd6b550e43757c1911d513a0f8565f49f5a9 Mon Sep 17 00:00:00 2001
+From: Tom M <tom.mbrt@gmail.com>
+Date: Mon, 20 Jun 2022 22:35:30 +0200
+Subject: [PATCH] Remove QtWin
+
+---
+ CMakeLists.txt                          |  4 ----
+ KF5WindowSystemConfig.cmake.in          |  4 ----
+ src/CMakeLists.txt                      |  1 -
+ src/platforms/windows/kwindowsystem.cpp | 11 +++++------
+ 4 files changed, 5 insertions(+), 15 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cbceae1..d2c6c64 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -58,10 +58,6 @@ if (APPLE)
+     cmake_find_frameworks(CoreFoundation)
+ endif()
+ 
+-if(WIN32)
+-   find_package(Qt5WinExtras REQUIRED)
+-endif()
+-
+ if (NOT APPLE)
+     find_package(X11)
+ endif()
+diff --git a/KF5WindowSystemConfig.cmake.in b/KF5WindowSystemConfig.cmake.in
+index 98801b2..0ad3101 100644
+--- a/KF5WindowSystemConfig.cmake.in
++++ b/KF5WindowSystemConfig.cmake.in
+@@ -12,10 +12,6 @@ if(@X11_FOUND@)
+ endif()
+ 
+ if(NOT @BUILD_SHARED_LIBS@)
+-    if(@WIN32@)
+-        find_dependency(Qt5WinExtras @REQUIRED_QT_VERSION@)
+-    endif()
+-
+     if(@X11_FOUND@)
+         if (NOT TARGET Qt6::Gui)
+             find_dependency(Qt5X11Extras @REQUIRED_QT_VERSION@)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 3d09823..ec247fe 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -113,7 +113,6 @@ if (WIN32)
+    )
+    target_link_libraries(KF5WindowSystem
+         PRIVATE
+-            Qt5::WinExtras # QtWin::fromHICON(), QtWin::toHICON()
+             ws2_32 # gethostname()
+    )
+ endif ()
+diff --git a/src/platforms/windows/kwindowsystem.cpp b/src/platforms/windows/kwindowsystem.cpp
+index d844afd..8b93fe8 100644
+--- a/src/platforms/windows/kwindowsystem.cpp
++++ b/src/platforms/windows/kwindowsystem.cpp
+@@ -16,7 +16,6 @@
+ #include <QLibrary>
+ #include <QMetaMethod>
+ #include <QPixmap>
+-#include <QtWin>
+ 
+ #include <windows.h>
+ #include <windowsx.h>
+@@ -266,7 +265,7 @@ void KWindowSystemPrivate::readWindowInfo(HWND hWnd, InternalWindowInfo *winfo)
+         hSmallIcon = (HICON)SendMessage(hWnd, WM_QUERYDRAGICON, 0, 0);
+     }
+     if (hSmallIcon) {
+-        smallIcon = QtWin::fromHICON(hSmallIcon);
++        smallIcon = QPixmap::fromImage(QImage::fromHICON(hSmallIcon));
+     }
+ 
+     QPixmap bigIcon;
+@@ -287,7 +286,7 @@ void KWindowSystemPrivate::readWindowInfo(HWND hWnd, InternalWindowInfo *winfo)
+         hBigIcon = (HICON)SendMessage(hWnd, WM_QUERYDRAGICON, 0, 0);
+     }
+     if (hBigIcon) {
+-        bigIcon = QtWin::fromHICON(hBigIcon);
++        bigIcon = QPixmap::fromImage(QImage::fromHICON(hBigIcon));
+     }
+ 
+     winfo->bigIcon = bigIcon;
+@@ -488,7 +487,7 @@ QPixmap KWindowSystem::icon(WId win, int width, int height, bool scale)
+         }
+         HICON hIcon = (HICON)SendMessage(reinterpret_cast<HWND>(win), WM_GETICON, size, 0);
+         if (hIcon != nullptr) {
+-            pm = QtWin::fromHICON(hIcon);
++            pm = QPixmap::fromImage(QImage::fromHICON(hIcon));
+         }
+     }
+     if (scale) {
+@@ -513,8 +512,8 @@ void KWindowSystem::setIcons(WId win, const QPixmap &icon, const QPixmap &miniIc
+         s_d->winInfos[win].bigIcon = icon;
+     }
+ 
+-    HICON hIconBig = QtWin::toHICON(icon);
+-    HICON hIconSmall = QtWin::toHICON(miniIcon);
++    HICON hIconBig = icon.toImage().toHICON();
++    HICON hIconSmall = miniIcon.toImage().toHICON();
+ 
+     HWND hwnd = reinterpret_cast<HWND>(win);
+     hIconBig = (HICON)SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIconBig);
+-- 
+2.25.1.windows.1
+

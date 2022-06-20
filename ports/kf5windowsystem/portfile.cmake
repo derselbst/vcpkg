@@ -3,6 +3,8 @@ vcpkg_from_github(
     REPO KDE/kwindowsystem
     REF v5.95.0
     SHA512 f85d9fd189314b683ab8b318eb25a86e14d7f31669e2eb0b33da979b6d3945ace050fe4fdf0532bbe6eab85d5739cd3941db39730f1659ae8aaba6d4bdc4da0e
+    PATCHES
+       remove-QtWin.patch
 )
 
 if (VCPKG_TARGET_IS_LINUX)
@@ -32,6 +34,6 @@ endif()
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
 
-vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/include/KF5/KWindowSystem/config-kwindowsystem.h" "${CURRENT_PACKAGES_DIR}/" "")
+vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/include/KF6/KWindowSystem/config-kwindowsystem.h" "${CURRENT_PACKAGES_DIR}/" "")
 
 file(INSTALL "${SOURCE_PATH}/LICENSES/" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}/copyright")
