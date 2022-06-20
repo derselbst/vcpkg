@@ -4,6 +4,8 @@ vcpkg_from_github(
     REF v5.95.0
     SHA512 f2fa151c570956e48fbc072cdd4b7fb260a64137363ea90ddba206351a56758c23ce31c95a1d2eb7f2d71f41a0c322136e2df3d5611d0be55d7c7d48aca9893f
     HEAD_REF master
+    PATCHES
+        fix-build.patch
 )
 
 vcpkg_check_features(

@@ -1,0 +1,39 @@
+From 31daef3835bdf0f76234b34af3afe0cb25ebb10b Mon Sep 17 00:00:00 2001
+From: Tom M <tom.mbrt@gmail.com>
+Date: Mon, 20 Jun 2022 21:49:55 +0200
+Subject: [PATCH] Fix build
+
+---
+ src/windowsmessagesnotifier.cpp | 2 +-
+ src/windowsmessagesnotifier.h   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/windowsmessagesnotifier.cpp b/src/windowsmessagesnotifier.cpp
+index 09d365d..a0282cc 100644
+--- a/src/windowsmessagesnotifier.cpp
++++ b/src/windowsmessagesnotifier.cpp
+@@ -13,7 +13,7 @@ WindowsMessagesNotifier::WindowsMessagesNotifier()
+ 
+ WindowsMessagesNotifier::~WindowsMessagesNotifier() {}
+ 
+-bool WindowsMessagesNotifier::nativeEventFilter(const QByteArray &eventType, void *message, long *)
++bool WindowsMessagesNotifier::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *)
+ {
+     MSG *msg = static_cast< MSG * >( message );
+     switch (msg->message)
+diff --git a/src/windowsmessagesnotifier.h b/src/windowsmessagesnotifier.h
+index 120831b..26ea55c 100644
+--- a/src/windowsmessagesnotifier.h
++++ b/src/windowsmessagesnotifier.h
+@@ -22,7 +22,7 @@ class WindowsMessagesNotifier
+ public:
+     WindowsMessagesNotifier();
+     ~WindowsMessagesNotifier();
+-    virtual bool nativeEventFilter(const QByteArray &eventType, void *message, long *) Q_DECL_OVERRIDE;
++    virtual bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *) Q_DECL_OVERRIDE;
+     void handleWMSettingChange();
+     bool preferDarkMode();
+ 
+-- 
+2.25.1.windows.1
+
