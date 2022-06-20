@@ -1,0 +1,25 @@
+From 5fff67e4ddae78d665ea61efeaf9f7d92d984c74 Mon Sep 17 00:00:00 2001
+From: "Moebert, Tom" <tom.moebert@zeiss.com>
+Date: Mon, 20 Jun 2022 23:24:15 +0200
+Subject: [PATCH] fix build
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 711646a..e583eb8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -42,7 +42,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KDBUSADDONS
+                         SOVERSION 5)
+ 
+ # qtx11extras_p.h is in Qt6Gui
+-if(TARGET Qt5::X11Extras OR TARGET Qt6::Gui)
++if(NOT WIN32 AND (TARGET Qt5::X11Extras OR TARGET Qt6::Gui))
+     set(HAVE_X11 TRUE)
+ else()
+     set(HAVE_X11 FALSE)
+-- 
+2.25.1.windows.1
+

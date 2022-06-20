@@ -4,6 +4,8 @@ vcpkg_from_github(
     REF v5.95.0
     SHA512 1e0cd6bbbbedfd7082a5aef066ed3e2681e39d838127eb15c15181d3a8df319495e6bb5ef48717ab78e06711623ee3bf23777b87c895b923ce06909d4dd45d52
     HEAD_REF master
+    PATCHES
+        fix-build.patch
 )
 
 # Prevent KDEClangFormat from writing to source effectively blocking parallel configure
