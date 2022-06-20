@@ -4,6 +4,8 @@ vcpkg_from_github(
     REF v5.95.0
     SHA512 0cdfed6d72209bd3ba3ea7b14a2cc046fb77fbb8cacde5976376fa18ff0762d77f8f6e30b56944c141054f9415567f0970c89da9453ff90cb05417f0e1de55ee
     HEAD_REF master
+    PATCHES
+        fix-build.patch
 )
 
 if(VCPKG_TARGET_IS_OSX)

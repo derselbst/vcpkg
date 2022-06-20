@@ -1,0 +1,25 @@
+From f0fa237e961e6e639d00d737b3f0f91493366140 Mon Sep 17 00:00:00 2001
+From: "Moebert, Tom" <tom.moebert@zeiss.com>
+Date: Mon, 20 Jun 2022 23:41:54 +0200
+Subject: [PATCH] fix build
+
+---
+ src/tools/solid-hardware/solid-hardware.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/tools/solid-hardware/solid-hardware.cpp b/src/tools/solid-hardware/solid-hardware.cpp
+index 3d46002..34f8a57 100644
+--- a/src/tools/solid-hardware/solid-hardware.cpp
++++ b/src/tools/solid-hardware/solid-hardware.cpp
+@@ -314,7 +314,7 @@ int main(int argc, char **argv)
+         parser.addPositionalArgument("nonportableinfo", QCoreApplication::translate("solid-hardware", "Show non portable information"));
+         parser.process(app);
+         args = parser.positionalArguments();
+-        QByteArray extra(args.count() == 2 ? args.at(1).toLocal8Bit() : "");
++        QByteArray extra(args.count() == 2 ? args.at(1).toLocal8Bit() : QByteArray(""));
+         return app.hwList(extra == "details", extra == "nonportableinfo");
+     } else if (command == "details") {
+         const QString udi = getUdiFromArguments(app, parser);
+-- 
+2.25.1.windows.1
+
