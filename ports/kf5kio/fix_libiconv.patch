@@ -1,33 +1,50 @@
+From d85660eb444f5877acbeb2f51e4da30ea5b3f84c Mon Sep 17 00:00:00 2001
+From: "Moebert, Tom" <tom.moebert@zeiss.com>
+Date: Mon, 20 Jun 2022 23:58:27 +0200
+Subject: [PATCH] Fix libiconv
+
+---
+ src/ioslaves/file/CMakeLists.txt              | 4 +++-
+ src/ioslaves/ftp/CMakeLists.txt               | 4 +++-
+ src/ioslaves/http/CMakeLists.txt              | 7 ++++++-
+ src/ioslaves/http/kcookiejar/CMakeLists.txt   | 4 ++++
+ src/ioslaves/remote/CMakeLists.txt            | 4 +++-
+ src/ioslaves/remote/kdedmodule/CMakeLists.txt | 4 +++-
+ src/ioslaves/telnet/CMakeLists.txt            | 3 +++
+ src/ioslaves/trash/CMakeLists.txt             | 4 ++++
+ src/kioexec/CMakeLists.txt                    | 5 ++++-
+ src/kpasswdserver/CMakeLists.txt              | 3 +++
+ 10 files changed, 36 insertions(+), 6 deletions(-)
+
 diff --git a/src/ioslaves/file/CMakeLists.txt b/src/ioslaves/file/CMakeLists.txt
-index fec216af..8595f36e 100644
+index 25040b841..82c44bcac 100644
 --- a/src/ioslaves/file/CMakeLists.txt
 +++ b/src/ioslaves/file/CMakeLists.txt
 @@ -28,7 +28,9 @@ ecm_qt_export_logging_category(
      EXPORT KIO
  )
  
--target_link_libraries(kio_file KF5::KIOCore KF5::I18n KF5::ConfigCore Qt5::DBus Qt5::Network)
+-target_link_libraries(kio_file KF5::KIOCore KF5::I18n KF5::ConfigCore Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Network)
 +find_package(Iconv REQUIRED)
 +include_directories(${Iconv_INCLUDE_DIRS})
-+target_link_libraries(kio_file KF5::KIOCore KF5::I18n KF5::ConfigCore Qt5::DBus Qt5::Network ${Iconv_LIBRARIES})
++target_link_libraries(kio_file KF5::KIOCore KF5::I18n KF5::ConfigCore Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Network ${Iconv_LIBRARIES})
  
  if(UNIX)
-   target_link_libraries(kio_file Qt5::Network KF5::AuthCore)
+   target_link_libraries(kio_file Qt${QT_MAJOR_VERSION}::Network KF5::AuthCore)
 diff --git a/src/ioslaves/ftp/CMakeLists.txt b/src/ioslaves/ftp/CMakeLists.txt
-index 44abb409..61eb3836 100644
+index 91a39ce79..1b8c4c56f 100644
 --- a/src/ioslaves/ftp/CMakeLists.txt
 +++ b/src/ioslaves/ftp/CMakeLists.txt
-@@ -16,4 +16,6 @@ ecm_qt_export_logging_category(
+@@ -17,4 +17,6 @@ ecm_qt_export_logging_category(
      EXPORT KIO
  )
  
--target_link_libraries(kio_ftp Qt5::Network KF5::KIOCore KF5::I18n KF5::ConfigCore)
+-target_link_libraries(kio_ftp Qt${QT_MAJOR_VERSION}::Network KF5::KIOCore KF5::I18n KF5::ConfigCore)
 +find_package(Iconv REQUIRED)
 +include_directories(${Iconv_INCLUDE_DIRS})
-+target_link_libraries(kio_ftp Qt5::Network KF5::KIOCore KF5::I18n KF5::ConfigCore ${Iconv_LIBRARIES})
-\ No newline at end of file
++target_link_libraries(kio_ftp Qt${QT_MAJOR_VERSION}::Network KF5::KIOCore KF5::I18n KF5::ConfigCore ${Iconv_LIBRARIES})
 diff --git a/src/ioslaves/http/CMakeLists.txt b/src/ioslaves/http/CMakeLists.txt
-index e616d08b..0631edb6 100644
+index 4fbddb4a3..8eb8552dc 100644
 --- a/src/ioslaves/http/CMakeLists.txt
 +++ b/src/ioslaves/http/CMakeLists.txt
 @@ -37,11 +37,15 @@ target_sources(kio_http_cache_cleaner PRIVATE
@@ -37,15 +54,15 @@ index e616d08b..0631edb6 100644
 +find_package(Iconv REQUIRED)
 +include_directories(${Iconv_INCLUDE_DIRS})
  target_link_libraries(kio_http_cache_cleaner
-    Qt5::DBus
-    Qt5::Network # QLocalSocket
+    Qt${QT_MAJOR_VERSION}::DBus
+    Qt${QT_MAJOR_VERSION}::Network # QLocalSocket
     KF5::KIOCore # KProtocolManager
 -   KF5::I18n)
 +   KF5::I18n
 +   ${Iconv_LIBRARIES} 
 +)
  
- install(TARGETS kio_http_cache_cleaner DESTINATION ${KDE_INSTALL_LIBEXECDIR_KF5} )
+ install(TARGETS kio_http_cache_cleaner DESTINATION ${KDE_INSTALL_LIBEXECDIR_KF} )
  
 @@ -91,6 +95,7 @@ target_link_libraries(kio_http
     KF5::KIONTLM
@@ -54,9 +71,9 @@ index e616d08b..0631edb6 100644
 +   ${Iconv_LIBRARIES}
  )
  if(GSSAPI_FOUND)
-   target_link_libraries(kio_http ${GSSAPI_LIBS} )
+   target_link_libraries(kio_http PRIVATE ${GSSAPI_LIBS})
 diff --git a/src/ioslaves/http/kcookiejar/CMakeLists.txt b/src/ioslaves/http/kcookiejar/CMakeLists.txt
-index 0f770ae4..2600d2d2 100644
+index f1fb9b2a9..78d7d20da 100644
 --- a/src/ioslaves/http/kcookiejar/CMakeLists.txt
 +++ b/src/ioslaves/http/kcookiejar/CMakeLists.txt
 @@ -13,10 +13,13 @@ target_sources(kcookiejar5 PRIVATE
@@ -66,7 +83,7 @@ index 0f770ae4..2600d2d2 100644
 +find_package(Iconv REQUIRED)
 +include_directories(${Iconv_INCLUDE_DIRS})
  target_link_libraries( kcookiejar5
-    Qt5::DBus
+    Qt${QT_MAJOR_VERSION}::DBus
     KF5::I18n
     KF5::WidgetsAddons
 +   ${Iconv_LIBRARIES}
@@ -82,19 +99,19 @@ index 0f770ae4..2600d2d2 100644
  
  ########### install files ###############
 diff --git a/src/ioslaves/remote/CMakeLists.txt b/src/ioslaves/remote/CMakeLists.txt
-index e2b576e2..526551ee 100644
+index 981c7d650..5443280cf 100644
 --- a/src/ioslaves/remote/CMakeLists.txt
 +++ b/src/ioslaves/remote/CMakeLists.txt
-@@ -19,4 +19,6 @@ ecm_qt_declare_logging_category(kio_remote
+@@ -18,4 +18,6 @@ ecm_qt_declare_logging_category(kio_remote
      EXPORT KIO
  )
  
--target_link_libraries(kio_remote KF5::KIOCore KF5::I18n KF5::ConfigCore Qt5::Network)
+-target_link_libraries(kio_remote KF5::KIOCore KF5::I18n KF5::ConfigCore Qt${QT_MAJOR_VERSION}::Network)
 +find_package(Iconv REQUIRED)
 +include_directories(${Iconv_INCLUDE_DIRS})
-+target_link_libraries(kio_remote KF5::KIOCore KF5::I18n KF5::ConfigCore Qt5::Network ${Iconv_LIBRARIES})
++target_link_libraries(kio_remote KF5::KIOCore KF5::I18n KF5::ConfigCore Qt${QT_MAJOR_VERSION}::Network ${Iconv_LIBRARIES})
 diff --git a/src/ioslaves/remote/kdedmodule/CMakeLists.txt b/src/ioslaves/remote/kdedmodule/CMakeLists.txt
-index 4e40d214..7ba0d911 100644
+index b04875a54..8fe8212c6 100644
 --- a/src/ioslaves/remote/kdedmodule/CMakeLists.txt
 +++ b/src/ioslaves/remote/kdedmodule/CMakeLists.txt
 @@ -1,7 +1,9 @@
@@ -109,7 +126,7 @@ index 4e40d214..7ba0d911 100644
  set_target_properties(remotedirnotify PROPERTIES OUTPUT_NAME "remotenotifier")
  
 diff --git a/src/ioslaves/telnet/CMakeLists.txt b/src/ioslaves/telnet/CMakeLists.txt
-index ffee12c8..0b03c211 100644
+index fb23eb9d9..7a52873b7 100644
 --- a/src/ioslaves/telnet/CMakeLists.txt
 +++ b/src/ioslaves/telnet/CMakeLists.txt
 @@ -2,10 +2,13 @@
@@ -119,7 +136,7 @@ index ffee12c8..0b03c211 100644
 +find_package(Iconv REQUIRED)
 +include_directories(${Iconv_INCLUDE_DIRS})
  target_link_libraries(ktelnetservice5
-    Qt5::Widgets
+    Qt${QT_MAJOR_VERSION}::Widgets
     KF5::I18n
     KF5::KIOGui
 +   ${Iconv_LIBRARIES}
@@ -127,10 +144,10 @@ index ffee12c8..0b03c211 100644
  
  install(TARGETS ktelnetservice5 ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 diff --git a/src/ioslaves/trash/CMakeLists.txt b/src/ioslaves/trash/CMakeLists.txt
-index 147b3f3e..0546b8ce 100644
+index bb57b6a01..e1bebf494 100644
 --- a/src/ioslaves/trash/CMakeLists.txt
 +++ b/src/ioslaves/trash/CMakeLists.txt
-@@ -51,6 +51,8 @@ else()
+@@ -50,6 +50,8 @@ else()
      )
  endif()
  
@@ -139,15 +156,15 @@ index 147b3f3e..0546b8ce 100644
  target_link_libraries(kio_trash
    KF5::ConfigCore
    KF5::Solid
-@@ -59,6 +61,7 @@ target_link_libraries(kio_trash
-   Qt5::Network
+@@ -58,6 +60,7 @@ target_link_libraries(kio_trash
+   Qt${QT_MAJOR_VERSION}::Network
    KF5::I18n
    KF5::ConfigCore
 +  ${Iconv_LIBRARIES}
  )
  if(APPLE)
      target_link_libraries(kio_trash "-framework DiskArbitration -framework CoreFoundation")
-@@ -78,6 +81,7 @@ target_link_libraries(ktrash5
+@@ -77,6 +80,7 @@ target_link_libraries(ktrash5
    KF5::KIOCore
    KF5::I18n
    KF5::ConfigCore
@@ -156,7 +173,7 @@ index 147b3f3e..0546b8ce 100644
  
  install(TARGETS ktrash5 ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 diff --git a/src/kioexec/CMakeLists.txt b/src/kioexec/CMakeLists.txt
-index 92eeafe7..8ae87424 100644
+index 5268384b6..517cfeec8 100644
 --- a/src/kioexec/CMakeLists.txt
 +++ b/src/kioexec/CMakeLists.txt
 @@ -19,7 +19,9 @@ ecm_qt_declare_logging_category(kioexecd
@@ -168,7 +185,7 @@ index 92eeafe7..8ae87424 100644
 +include_directories(${Iconv_INCLUDE_DIRS})
 +target_link_libraries(kioexecd KF5::I18n KF5::DBusAddons KF5::WidgetsAddons KF5::KIOCore ${Iconv_LIBRARIES})
  
- kdbusaddons_generate_dbus_service_file(kiod5 org.kde.kioexecd ${KDE_INSTALL_FULL_LIBEXECDIR_KF5})
+ kdbusaddons_generate_dbus_service_file(kiod5 org.kde.kioexecd ${KDE_INSTALL_FULL_LIBEXECDIR_KF})
  
 @@ -45,6 +47,7 @@ target_link_libraries(kioexec
      KF5::WidgetsAddons # KMessageBox
@@ -179,7 +196,7 @@ index 92eeafe7..8ae87424 100644
  
  if (HAVE_X11)
 diff --git a/src/kpasswdserver/CMakeLists.txt b/src/kpasswdserver/CMakeLists.txt
-index c268e039..c1a562aa 100644
+index cd00012a3..9e6365fbf 100644
 --- a/src/kpasswdserver/CMakeLists.txt
 +++ b/src/kpasswdserver/CMakeLists.txt
 @@ -39,6 +39,8 @@ ecm_qt_export_logging_category(
@@ -190,7 +207,7 @@ index c268e039..c1a562aa 100644
 +include_directories(${Iconv_INCLUDE_DIRS})
  target_link_libraries(kiod_kpasswdserver
     KF5::DBusAddons    # KDED Module
-    Qt5::DBus
+    Qt${QT_MAJOR_VERSION}::DBus
 @@ -46,6 +48,7 @@ target_link_libraries(kiod_kpasswdserver
     KF5::WidgetsAddons # KPasswordDialog
     KF5::I18n
@@ -199,3 +216,6 @@ index c268e039..c1a562aa 100644
     ${WALLET_LIB}
  )
  
+-- 
+2.25.1.windows.1
+
