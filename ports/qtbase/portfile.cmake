@@ -341,6 +341,7 @@ qt_install_submodule(PATCHES    ${${PORT}_PATCHES}
                         -DFEATURE_force_debug_info:BOOL=ON
                         -DFEATURE_relocatable:BOOL=ON
                         -DQT_AUTODETECT_ANDROID:BOOL=ON # Use vcpkg toolchain as is
+                        -DFEATURE_qtgui_threadpool:BOOL=OFF
                      CONFIGURE_OPTIONS_RELEASE
                      CONFIGURE_OPTIONS_DEBUG
                         -DFEATURE_debug:BOOL=ON
